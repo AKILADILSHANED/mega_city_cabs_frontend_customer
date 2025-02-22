@@ -12,6 +12,8 @@ export default function page() {
   const [password, setPassword] = useState("");
   const [passwordError, setpasswordError] = useState("");
 
+  const [commonError, setCommonError] = useState("");
+
   const errorMessages = [
     { state: email, errorSetting: setemailError },
     { state: password, errorSetting: setpasswordError },
@@ -43,23 +45,23 @@ export default function page() {
         if (response == 1) {
           router.push("/CustomerDashBoard");
         } else if (response == 0) {
-          alert("No user");
+          setCommonError("Incorrect User Name or Password!");
         } else {
-          alert("Error from backend");
+          alert(response);
         }
       } else {
-        alert("Respnse Error");
+        alert("No response from server. Please contact administrator!");
       }
     } catch (e) {
-      alert("Error");
+      alert(e);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <div className="border border-orange-300 w-full bg-white rounded-lg shadow-lg dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-blue-900">
+      <div className="border border-blue-300 w-full bg-white rounded-lg shadow-xl dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-orange-500 md:text-2xl dark:text-white">
+          <h1 className="text-xl font-bold leading-tight tracking-tight text-blue-500 md:text-2xl dark:text-white">
             Sign in to our services
           </h1>
           <form
@@ -67,14 +69,14 @@ export default function page() {
             className="space-y-4 md:space-y-6"
             action="#">
             <div>
-              <label className="block mb-2 text-sm font-medium text-orange-400 dark:text-white">
+              <label className="block mb-2 text-sm font-medium text-blue-400 dark:text-white">
                 Your email
               </label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                className="bg-gray-50 border border-orange-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="outline-blue-400 bg-gray-50 border border-blue-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@company.com"
                 required=""
                 onChange={(e) => setEmail(e.target.value)}
@@ -87,7 +89,7 @@ export default function page() {
               )}
             </div>
             <div>
-              <label className="block mb-2 text-sm font-medium text-orange-400 dark:text-white">
+              <label className="block mb-2 text-sm font-medium text-blue-400 dark:text-white">
                 Password
               </label>
               <input
@@ -95,7 +97,7 @@ export default function page() {
                 name="password"
                 id="password"
                 placeholder="••••••••"
-                className="bg-gray-50 border border-orange-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="outline-blue-400 bg-gray-50 border border-blue-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required=""
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
@@ -118,23 +120,28 @@ export default function page() {
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <label className="text-orange-300 dark:text-gray-300">
+                  <label className="text-blue-300 dark:text-gray-300">
                     Remember me
                   </label>
                 </div>
               </div>
               <a
                 href="#"
-                className="text-sm font-medium text-orange-400 hover:underline dark:text-primary-500">
+                className="text-sm font-medium text-blue-400 hover:underline dark:text-primary-500">
                 Forgot password?
               </a>
             </div>
             <button
               type="submit"
-              className="w-full h-[30px] text-white bg-orange-500 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-primary-300 text-lg rounded-lg  px-5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+              className="w-full h-[30px] text-white bg-blue-500 hover:bg-blue-400 focus:ring-4 focus:outline-none focus:ring-primary-300 text-lg rounded-lg  px-5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
               Sign in
             </button>
-            <p className="text-sm font-light text-orange-400 dark:text-gray-400">
+            {commonError && (
+              <div className="text-red-400 font-serif text-sm">
+                <label>{commonError}</label>
+              </div>
+            )}
+            <p className="text-sm font-light text-blue-400 dark:text-gray-400">
               Don’t have an account yet?{" "}
               <a
                 href="/CustomerRegister"
