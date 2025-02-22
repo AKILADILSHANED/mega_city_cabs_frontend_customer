@@ -1,8 +1,11 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
+  const router = useRouter();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
@@ -20,7 +23,7 @@ export default function Register() {
     setSuccessMessage("");
     setErrorMessage("");
     //Check Password and Confirmed Password is matched.
-    if (password != confirmPassword) {      
+    if (password != confirmPassword) {
       setErrorMessage("Your password does not match with confirmed password!");
       return;
     }
@@ -29,22 +32,20 @@ export default function Register() {
       const request = await fetch(
         "http://localhost:8080/api/v1/customer/customer-register",
         {
-          method:"POST",
-          headers:{"Content-Type": "application/json"},
-          body:JSON.stringify(
-            {
-              firstName:firstName,
-              lastName:lastName,
-              contact:contact,
-              email:email,
-              nic:nic,
-              address:address,
-              password:password
-            }
-          )
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            contact: contact,
+            email: email,
+            nic: nic,
+            address: address,
+            password: password,
+          }),
         }
       );
-      if(request.ok){     
+      if (request.ok) {
         const response = await request.text();
         setErrorMessage("");
         setSuccessMessage(response);
@@ -57,18 +58,23 @@ export default function Register() {
         setNic("");
         setEmail("");
         setPassword("");
-        setConfirmPassword("");     
-                
-      }else{  
-        setSuccessMessage("");      
-        setErrorMessage("An error occurred while receiving response. Please contact administrator!");
+        setConfirmPassword("");
+      } else {
+        setSuccessMessage("");
+        setErrorMessage(
+          "An error occurred while receiving response. Please contact administrator!"
+        );
         return;
       }
-    } catch (error) {      
+    } catch (error) {
       setSuccessMessage("");
       setErrorMessage("An error occurred. Please contact administrator!");
       return;
     }
+  };
+
+  const handleSignin = () => {
+    router.push("/CustomerLogin");
   };
 
   return (
@@ -101,6 +107,12 @@ export default function Register() {
           <label className="text-blue-700 font-bold text-2xl">
             Customer Registration Form
           </label>
+          <button
+            type="button"
+            onClick={handleSignin}
+            className="border border-blue-500 rounded-md text-blue-500 w-[70px] hover:bg-blue-700 hover:text-white ml-[20px]">
+            Sign In
+          </button>
         </div>
 
         <div className="border border-blue-400 mt-2 rounded-md h-[600px] flex flex-col">
@@ -220,7 +232,9 @@ export default function Register() {
 
               <div>
                 {errorMessage && (
-                  <label className="text-red-600 ml-4 font-serif">{errorMessage}</label>
+                  <label className="text-red-600 ml-4 font-serif">
+                    {errorMessage}
+                  </label>
                 )}
               </div>
             </div>
