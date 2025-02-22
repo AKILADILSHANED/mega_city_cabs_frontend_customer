@@ -224,7 +224,7 @@ export default function Register() {
 
               <div>
                 {successMessage && (
-                  <label className="text-green-600 ml-4 font-serif">
+                  <label className="text-green-600 ml-4 font-serif mt-2">
                     {successMessage}
                   </label>
                 )}
@@ -232,7 +232,7 @@ export default function Register() {
 
               <div>
                 {errorMessage && (
-                  <label className="text-red-600 ml-4 font-serif">
+                  <label className="text-red-600 ml-4 font-serif mt-2">
                     {errorMessage}
                   </label>
                 )}
