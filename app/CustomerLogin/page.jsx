@@ -37,7 +37,8 @@ export default function page() {
       const request = await fetch(
         `http://localhost:8080/api/v1/customer/customer-login?email=${encodeURIComponent(
           email
-        )}&password=${encodeURIComponent(password)}`
+        )}&password=${encodeURIComponent(password)}`,
+        {credentials:"include"}
       );
 
       if (request.ok) {
