@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 export default function NewBooking() {
   //State Variables.
-  const [pickopLocation, setPickupLocation] = useState("");
+  const [pickupLocation, setPickupLocation] = useState("");
   const [destination, setDestination] = useState("");
   const [vehicleType, setVehicleType] = useState("");
 
@@ -14,22 +14,22 @@ export default function NewBooking() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg("");
-    const textStates = [pickopLocation, destination, vehicleType];
-    textStates.forEach((element) => {
-      if (element == "") {
-        setErrorMsg("Please fill out all fields!");
-        return;
-      }
-    });
+    const textStates = [pickupLocation, destination, vehicleType];
+    if (pickupLocation === "" || destination === "" || vehicleType === "") {
+      setErrorMsg("Please fill out all fields!");
+      return;
+    } else {
+    }
 
     try {
       const request = await fetch(
         "http://localhost:8080/api/v1/booking/newBooking",
         {
           method: "POST",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            pickupLocation: pickopLocation,
+            pickupLocation: pickupLocation,
             destination: destination,
             vehicleType: vehicleType,
           }),
@@ -37,12 +37,12 @@ export default function NewBooking() {
       );
       if (request.ok) {
         const response = await request.text();
-        alert(response);
+        setErrorMsg(response);
       } else {
-        alert("Error in response");
+        setErrorMsg("Error in response. Please try again!");
       }
     } catch (error) {
-        alert("Unable to send request");
+      setErrorMsg("Service unavailable. Please try again!");
     }
   };
 
@@ -102,7 +102,7 @@ export default function NewBooking() {
           </div>
           {errorMsg && (
             <div className="mt-2 flex flex-col items-center text-red-500 text-sm">
-              <label>Error Message</label>
+              <label>{errorMsg}</label>
             </div>
           )}
         </form>
