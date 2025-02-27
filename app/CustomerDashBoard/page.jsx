@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import NewBooking from "../NewBooking/page";
+import CancelBooking from "../CancelBooking/page";
+
 
 export default function CustomerDashBoard() {
   const router = useRouter();
@@ -11,18 +13,26 @@ export default function CustomerDashBoard() {
 
   //Use States
   const [isClickedNewBook, setClickNewBook] = useState(false);
+  const [isClickedCancelBooking, setClickCancelBooking] = useState(false);
 
+  const mainButtonArray = [
+    { status: isClickedNewBook, setter: setClickNewBook },
+    { status: isClickedCancelBooking, setter: setClickCancelBooking },
+  ];
 
   //Handling functions
 
-  const handleNewBookClick = ()=>{
-    if(isClickedNewBook == false){
-      setClickNewBook(true);
-    }else{
-      setClickNewBook(false);
+  const handleNewBookClick = (clickedStatus, setterFunction) => {
+    mainButtonArray.forEach((element) => {
+      element.setter(false);
+    });
+    if (clickedStatus == false) {
+      setterFunction(true);
+    } else {
+      setterFunction(false);
     }
-    
-  }
+  };
+
 
   return (
     <div className="bg-slate-100 min-h-screen w-full">
@@ -45,13 +55,14 @@ export default function CustomerDashBoard() {
 
         <div className="ml-[180px] bg-slate-100 h-[35px] w-[500px] flex flex-row items-center justify-center">
           <button
-          onClick={handleNewBookClick}
+            onClick={()=>handleNewBookClick(isClickedNewBook, setClickNewBook)}
             type="Submit"
             className="border border-slate-600 text-slate-600 h-[26px] w-[110px] ml-2 hover:text-sm hover:shadow-md">
             Book a Ride
           </button>
 
           <button
+            onClick={()=>handleNewBookClick(isClickedCancelBooking, setClickCancelBooking)}
             type="Submit"
             className="border border-slate-600 text-slate-600 h-[26px] w-[125px] ml-2 hover:text-sm hover:shadow-md">
             Cancel Booking
@@ -75,6 +86,12 @@ export default function CustomerDashBoard() {
       {isClickedNewBook && (
         <div className="mt-4">
           <NewBooking />
+        </div>
+      )}
+
+      {isClickedCancelBooking && (
+        <div className="mt-4">
+          <CancelBooking />
         </div>
       )}
     </div>
