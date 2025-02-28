@@ -35,14 +35,18 @@ export default function CancelBooking() {
         );
         if (response.ok) {
           const data = await response.json();
-          setBookingIdVeiw(data.bookingId);
-          setBookingDateView(data.bookingDate);
-          setBookingType(data.bookingType);
-          setPickupLocationView(data.pickupLocation);
-          setDestinationView(data.destination);
-          setVehicleTypeView(data.vehicleType);
+          if (data.message !== null) {
+            setMessage(data.message);
+          } else {
+            setBookingIdVeiw(data.bookingId);
+            setBookingDateView(data.bookingDate);
+            setBookingType(data.bookingType);
+            setPickupLocationView(data.pickupLocation);
+            setDestinationView(data.destination);
+            setVehicleTypeView(data.vehicleType);
 
-          setBookingDetailsWindow(true);
+            setBookingDetailsWindow(true);
+          }
         } else {
           setBookingDetailsWindow(false);
           setMessage("An error occurred while retriving the data!");
@@ -71,7 +75,7 @@ export default function CancelBooking() {
         }
       );
       if (response.ok) {
-        const data = await response.text()
+        const data = await response.text();
         setMessage(data);
         setBookingDetailsWindow(false);
       } else {
