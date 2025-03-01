@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 export default function BookingHistory() {
-  const [bookingObjs, setObject] = useState([{}]);
+  const [bookingObjs, setObject] = useState([]);
 
   const handleBookingHistory = async (e) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ export default function BookingHistory() {
             </thead>
             <tbody>
               {bookingObjs.map((element) => (
-                <tr className="bg-white text-md hover:text-red-600 h-[40px] border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                <tr key={element.bookingId} className="bg-white text-md hover:text-red-600 h-[40px] border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
                   <td className="px-6">{element.bookingId}</td>
                   <td className="px-6">{element.bookingDate}</td>
                   <td className="px-6">{element.bookingType}</td>
