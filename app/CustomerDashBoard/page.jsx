@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import NewBooking from "../NewBooking/page";
 import CancelBooking from "../CancelBooking/page";
-
+import BookingHistory from "../BookingHistory/page";
 
 export default function CustomerDashBoard() {
   const router = useRouter();
@@ -14,10 +14,12 @@ export default function CustomerDashBoard() {
   //Use States
   const [isClickedNewBook, setClickNewBook] = useState(false);
   const [isClickedCancelBooking, setClickCancelBooking] = useState(false);
+  const [isClickedBookingHistory, setClickBookingHistory] = useState(false);
 
   const mainButtonArray = [
     { status: isClickedNewBook, setter: setClickNewBook },
     { status: isClickedCancelBooking, setter: setClickCancelBooking },
+    { status: isClickedBookingHistory, setter: setClickBookingHistory },
   ];
 
   //Handling functions
@@ -32,7 +34,6 @@ export default function CustomerDashBoard() {
       setterFunction(false);
     }
   };
-
 
   return (
     <div className="bg-slate-100 min-h-screen w-full">
@@ -55,20 +56,30 @@ export default function CustomerDashBoard() {
 
         <div className="ml-[180px] bg-slate-100 h-[35px] w-[500px] flex flex-row items-center justify-center">
           <button
-            onClick={()=>handleNewBookClick(isClickedNewBook, setClickNewBook)}
+            onClick={() =>
+              handleNewBookClick(isClickedNewBook, setClickNewBook)
+            }
             type="Submit"
             className="border border-slate-600 text-slate-600 h-[26px] w-[110px] ml-2 hover:text-sm hover:shadow-md">
             Book a Ride
           </button>
 
           <button
-            onClick={()=>handleNewBookClick(isClickedCancelBooking, setClickCancelBooking)}
+            onClick={() =>
+              handleNewBookClick(isClickedCancelBooking, setClickCancelBooking)
+            }
             type="Submit"
             className="border border-slate-600 text-slate-600 h-[26px] w-[125px] ml-2 hover:text-sm hover:shadow-md">
             Cancel Booking
           </button>
 
           <button
+            onClick={() =>
+              handleNewBookClick(
+                isClickedBookingHistory,
+                setClickBookingHistory
+              )
+            }
             type="Submit"
             className="border border-slate-600 text-slate-600 h-[26px] w-[125px] ml-2 hover:text-sm hover:shadow-md">
             Booking History
@@ -92,6 +103,12 @@ export default function CustomerDashBoard() {
       {isClickedCancelBooking && (
         <div className="mt-4">
           <CancelBooking />
+        </div>
+      )}
+
+      {isClickedBookingHistory && (
+        <div className="mt-4">
+          <BookingHistory />
         </div>
       )}
     </div>
