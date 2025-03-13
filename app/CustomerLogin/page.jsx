@@ -32,29 +32,27 @@ export default function page() {
         element.errorSetting("");
       }
     });
-
     try {
       const request = await fetch(
         `http://localhost:8080/api/v1/customer/customer-login?email=${encodeURIComponent(
           email
         )}&password=${encodeURIComponent(password)}`,
-        {credentials:"include"}
+        { credentials: "include" }
       );
-
       if (request.ok) {
         const response = await request.text();
         if (response == 1) {
           router.push("/CustomerDashBoard");
-        } else if (response == 0) {
-          setCommonError("Incorrect User Name or Password!");
         } else {
-          alert(response);
+          setCommonError(response);
         }
       } else {
-        alert("No response from server. Please contact administrator!");
+        setCommonError(
+          "Unexpected error occuured. Please contact the administrator!"
+        );
       }
     } catch (e) {
-      alert(e);
+      setCommonError("No response from server. Please contact administrator!");
     }
   };
 
